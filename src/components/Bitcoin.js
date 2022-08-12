@@ -50,7 +50,7 @@ function Bitcoin() {
       }).catch(error => console.log(error), setPrices({ ...prices, isError: true }));
     }).catch(error => console.log(error), setPrices({ ...prices, isError: true }))
   };
-  const [time, setTime] = useState(Date.now());
+  const [time, setTime] = useState(Date.now()); 
 
   useEffect(() => {
     (async () => {
