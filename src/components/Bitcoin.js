@@ -64,7 +64,6 @@ function Bitcoin() {
 
   return (
     <div>
-      {console.log("RENDER")}
       {prices.isLoading ? <div>Loading</div> : <div>yüklendi</div>}
       {prices.isError ? <div>Error</div> : <div>Err yok</div>}
       <div style={{ height: 120 }}>
