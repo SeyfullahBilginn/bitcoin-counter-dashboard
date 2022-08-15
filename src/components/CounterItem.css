@@ -1,0 +1,29 @@
+.counter {
+    display: flex;
+    /* height: 50px; */
+    margin: 10px;
+    padding-left: 2px;
+    font-size: 32px;
+    font-weight: bold;
+    align-items: center;
+    background-color: wheat;
+}
+
+.counter-number {
+    padding: 6px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.arrow-button {
+    display: flex;
+    margin: 2px;
+    width: 55px;
+    height: 55px;
+    background-color: rgb(185, 184, 184);
+    cursor: pointer;
+    color: rgb(150, 150, 233);
+}
