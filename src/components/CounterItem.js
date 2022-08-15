@@ -2,7 +2,7 @@ import React from 'react'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import "./CounterItem.css";
-import { func, number } from "prop-types";
+import { func, string } from "prop-types";
 
 export default function CounterItem({ counter, increase, decrease }) {
   return (
@@ -19,12 +19,12 @@ export default function CounterItem({ counter, increase, decrease }) {
 }
 
 CounterItem.propTypes = {
-  counter: number,
+  counter: string.isRequired,
   increase: func,
   decrease: func
 }
 
-CounterItem.defaultProps = { 
+CounterItem.defaultProps = {
   counter: 0,
   increase: (f) => f,
   decrease: (f) => f

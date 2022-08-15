@@ -3,3 +3,9 @@
     display: flex;
     justify-content: center;
 }
+
+.counter-items {
+    display: flex;
+    align-items: baseline;
+    font-size: xxx-large;
+}

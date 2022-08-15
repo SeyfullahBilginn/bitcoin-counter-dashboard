@@ -1,6 +1,5 @@
 .counter {
     display: flex;
-    /* height: 50px; */
     margin: 10px;
     padding-left: 2px;
     font-size: 32px;
@@ -23,7 +22,12 @@
     margin: 2px;
     width: 55px;
     height: 55px;
-    background-color: rgb(185, 184, 184);
+    background-color: rgb(200, 197, 197);
     cursor: pointer;
     color: rgb(150, 150, 233);
+}
+
+.arrow-button:hover {  
+    background-color: rgb(138, 138, 224);
+    color: green
 }

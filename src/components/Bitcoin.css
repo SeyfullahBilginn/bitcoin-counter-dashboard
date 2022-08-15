@@ -1,0 +1,38 @@
+.bitcoin {
+    display: flex;
+    padding: 10px;
+}
+.currency-card {
+    background-color: rgb(212, 212, 212);
+    text-align: center;
+    padding: 10px;
+    margin-right: 30px;
+    border-radius: 3px;
+}
+.tooltip {
+    position: relative; 
+    font-weight: bold;
+    /* display: inline-block;
+    /* border-bottom: 1px dotted black; */
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(203, 174, 222);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

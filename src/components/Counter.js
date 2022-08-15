@@ -20,9 +20,9 @@ function Counter() {
       if (seconds > 0) {
         setSeconds(seconds - 1);
       }
-      if (seconds === 0) {
-        if (minutes === 0) {
-          if (hours === 0) {
+      if (seconds == 0) {
+        if (minutes == 0) {
+          if (hours == 0) {
             // 00:00:00
             clearInterval(myInterval);
           } else {
@@ -148,12 +148,12 @@ function Counter() {
       className='parent'
     >
       {renderPopups()}
-      <div style={{ display: "flex", alignItems: "center", fontSize: 32 }}>
-        <CounterItem counter={hours < 10 ? `0${hours}` : hours} increase={() => increase("hours")} decrease={() => decrease("hours")} />
+      <div className='counter-items'>
+        <CounterItem counter={hours < 10 ? `0${hours}` : hours.toString()} increase={() => increase("hours")} decrease={() => decrease("hours")} />
         :
-        <CounterItem counter={minutes < 10 ? `0${minutes}` : minutes} increase={() => increase("minutes")} decrease={() => decrease("minutes")} />
+        <CounterItem counter={minutes < 10 ? `0${minutes}` : minutes.toString()} increase={() => increase("minutes")} decrease={() => decrease("minutes")} />
         :
-        <CounterItem counter={seconds < 10 ? `0${seconds}` : seconds} increase={() => increase("seconds")} decrease={() => decrease("seconds")} />
+        <CounterItem counter={seconds < 10 ? `0${seconds}` : seconds.toString()} increase={() => increase("seconds")} decrease={() => decrease("seconds")} />
       </div>
     </div>
   );

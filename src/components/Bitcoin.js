@@ -3,18 +3,28 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import useInterval from './useInterval';
+import "./Bitcoin.css";
 
 function Bitcoin() {
   const [prices, setPrices] = useState(
     {
       data: {},
       time: '',
-      isError: false,
+      isLoading: false,
+      // isError: false,
     })
+  const [symbols, setSymbols] = useState({
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+  })
   const [colors, setColors] = useState([]);
 
 
   const getData = (isFirstCall) => {
+    setPrices({ ...prices, isLoading: true });
+    console.log(prices);
+
     const api = 'https://api.coindesk.com/v1/bpi/currentprice.json';
     fetch(api, {
       method: 'GET',
@@ -22,35 +32,37 @@ function Bitcoin() {
       res.json().then(res => {
         if (prices.time !== res.time.updated) {
           //if times are euqal, do not update colors
+          // reset colors
+          setColors([])
+          if (!isFirstCall && prices.time === res.time.updated) {
+            //if it is not first call and time is equal to new time, do not update colors and data
+            return;
+          }
           Object.keys(res.bpi).forEach(key => {
-            if (!isFirstCall && prices.time === res.time.updated) {
-              return;
-            }
             // data da time hiç yoksa
             if (isFirstCall && prices.time === '') {
-              // //first iteration
+              // first iteration
               setColors(["grey", "grey", "grey"])
             }
             else {
+              // highlight colors related to new data's rise or fall
               if (res.bpi[key].rate > prices.data[key].rate) {
                 // color to green, if new rate is more than old rate
-                setColors(["green", "green", "green"])
+                setColors(prevState => [...prevState, "green"])
               } else if (res.bpi[key].rate < prices.data[key].rate) {
                 // color to red, if new rate is less than old rate
-                setColors(["red", "red", "red"])
+                setColors(prevState => [...prevState, "red"])
               }
             }
           })
           setPrices({ ...prices, data: res.bpi, time: res.time.updated });
           return;
         }
-
         setColors(["black", "black", "black"])
-        setPrices({ data: res.bpi, time: res.time.updated });
-      }).catch(error => console.log(error), setPrices({ ...prices, isError: true }));
-    }).catch(error => console.log(error), setPrices({ ...prices, isError: true }))
+        setPrices({ ...prices, data: res.bpi, time: res.time.updated });
+      }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }));
+    }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }))
   };
-  const [time, setTime] = useState(Date.now()); 
 
   useEffect(() => {
     (async () => {
@@ -63,17 +75,24 @@ function Bitcoin() {
   }, 4000);
 
   return (
-    <div>
-      {prices.isLoading ? <div>Loading</div> : <div>yüklendi</div>}
-      {prices.isError ? <div>Error</div> : <div>Err yok</div>}
-      <div style={{ height: 120 }}>
-        {
-          prices?.data && Object.keys(prices.data).map((key, index) => {
-            // eslint-disable-next-line react/jsx-key
-            return <p key={key} style={{ color: colors[index] }}>Code: {prices.data[key].code} = {prices.data[key].rate}</p>
-          })
-        }
-      </div>
+    <div className='bitcoin'>
+      {
+        colors.map(col => {
+          return <div>{col}</div>
+        })
+      }
+      {
+        prices?.data && Object.keys(prices.data).map((key, index) => {
+          // eslint-disable-next-line react/jsx-key
+          return <div className='currency-card'>
+            <p className="tooltip">
+              {prices.data[key].code}
+              <span className="tooltiptext">{prices.data[key].description}</span>
+            </p>
+            <p key={key} style={{ color: colors[index] }}>{prices.data[key].rate.substr(0, 7)}{symbols[key]}</p>
+          </div>
+        })
+      }
     </div>
   );
 }
