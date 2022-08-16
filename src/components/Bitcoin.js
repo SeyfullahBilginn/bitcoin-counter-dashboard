@@ -38,13 +38,12 @@ function Bitcoin() {
             //if it is not first call and time is equal to new time, do not update colors and data
             return;
           }
+          // data da time hiç yoksa
+          if (isFirstCall && prices.time === '') {
+            // first iteration
+            setColors(Array(Object.keys(res.bpi).length).fill("grey"))
+          }
           Object.keys(res.bpi).forEach(key => {
-            // data da time hiç yoksa
-            if (isFirstCall && prices.time === '') {
-              // first iteration
-              setColors(["grey", "grey", "grey"])
-            }
-            else {
               // highlight colors related to new data's rise or fall
               if (res.bpi[key].rate > prices.data[key].rate) {
                 // color to green, if new rate is more than old rate
@@ -52,13 +51,15 @@ function Bitcoin() {
               } else if (res.bpi[key].rate < prices.data[key].rate) {
                 // color to red, if new rate is less than old rate
                 setColors(prevState => [...prevState, "red"])
+              } else {
+                // color to black, if new rate is equal to old rate
+                setColors(prevState => [...prevState, "black"])
               }
-            }
           })
           setPrices({ ...prices, data: res.bpi, time: res.time.updated });
           return;
         }
-        setColors(["black", "black", "black"])
+        setColors(Array(Object.keys(res.bpi).length).fill("black"))
         setPrices({ ...prices, data: res.bpi, time: res.time.updated });
       }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }));
     }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }))
