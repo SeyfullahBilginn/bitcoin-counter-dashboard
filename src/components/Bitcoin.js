@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
-/* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import useInterval from './useInterval';
 import "./Bitcoin.css";
@@ -11,9 +10,9 @@ function Bitcoin() {
       data: {},
       time: '',
       isLoading: false,
-      // isError: false,
+      isError: false,
     })
-  const [symbols, setSymbols] = useState({
+  const [symbols] = useState({
     USD: "$",
     EUR: "€",
     GBP: "£",
@@ -23,7 +22,6 @@ function Bitcoin() {
 
   const getData = (isFirstCall) => {
     setPrices({ ...prices, isLoading: true });
-    console.log(prices);
 
     const api = 'https://api.coindesk.com/v1/bpi/currentprice.json';
     fetch(api, {
@@ -41,28 +39,30 @@ function Bitcoin() {
           // data da time hiç yoksa
           if (isFirstCall && prices.time === '') {
             // first iteration
-            setColors(Array(Object.keys(res.bpi).length).fill("grey"))
+            setColors(Array(Object.keys(res.bpi).length).fill("black"))
+            setPrices({ ...prices, data: res.bpi, time: res.time.updated });
+            return;
           }
           Object.keys(res.bpi).forEach(key => {
-              // highlight colors related to new data's rise or fall
-              if (res.bpi[key].rate > prices.data[key].rate) {
-                // color to green, if new rate is more than old rate
-                setColors(prevState => [...prevState, "green"])
-              } else if (res.bpi[key].rate < prices.data[key].rate) {
-                // color to red, if new rate is less than old rate
-                setColors(prevState => [...prevState, "red"])
-              } else {
-                // color to black, if new rate is equal to old rate
-                setColors(prevState => [...prevState, "black"])
-              }
+            // highlight colors related to new data's rise or fall
+            if (res.bpi[key].rate > prices.data[key].rate) {
+              // color to green, if new rate is more than old rate
+              setColors(prevState => [...prevState, "green"])
+            } else if (res.bpi[key].rate < prices.data[key].rate) {
+              // color to red, if new rate is less than old rate
+              setColors(prevState => [...prevState, "red"])
+            } else {
+              // color to black, if new rate is equal to old rate
+              setColors(prevState => [...prevState, "black"])
+            }
           })
           setPrices({ ...prices, data: res.bpi, time: res.time.updated });
           return;
         }
         setColors(Array(Object.keys(res.bpi).length).fill("black"))
         setPrices({ ...prices, data: res.bpi, time: res.time.updated });
-      }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }));
-    }).catch(error => console.log("error"), setPrices({ ...prices, isError: true }))
+      }).catch(error => console.error(error), setPrices({ ...prices, isError: true }));
+    }).catch(error => console.error(error), setPrices({ ...prices, isError: true }))
   };
 
   useEffect(() => {
@@ -76,24 +76,38 @@ function Bitcoin() {
   }, 4000);
 
   return (
-    <div className='bitcoin'>
-      {
-        colors.map(col => {
-          return <div>{col}</div>
-        })
-      }
-      {
-        prices?.data && Object.keys(prices.data).map((key, index) => {
-          // eslint-disable-next-line react/jsx-key
-          return <div className='currency-card'>
-            <p className="tooltip">
-              {prices.data[key].code}
-              <span className="tooltiptext">{prices.data[key].description}</span>
-            </p>
-            <p key={key} style={{ color: colors[index] }}>{prices.data[key].rate.substr(0, 7)}{symbols[key]}</p>
-          </div>
-        })
-      }
+    <div className='bitcoin-parent'>
+      <div className='bitcoin-child'>
+        {
+          prices?.data && Object.keys(prices.data).map((key, index) => {
+            return <div className='currency-card' key={index}>
+              <p className="tooltip">
+                {prices.data[key].code}
+                <span className="tooltiptext">{prices.data[key].description}</span>
+              </p>
+              <p key={key} style={{ color: colors[index] }}>{prices.data[key].rate.substr(0, 6)}{symbols[key]}</p>
+            </div>
+          })
+        }
+      </div>
+      <div>
+        <h2>Tutorial</h2>
+        <h3>Bitcoin</h3>
+        <p>
+          Bitcoin data is updated every 4 seconds. If the upcoming data is different than the current data,
+          prices are highlighted depending on the rise or fall of the prices as green or red. If the upcoming data is the same as 
+          the current data, prices are not highlighted.
+          Additionally, there is a tooltip that shows the description of the currency.
+        </p>
+        <h3>Counter</h3>
+        <p>
+          counter counts down from 10 hours. User can increment or decrement any of hour, minute and second by
+          using up or down icons on the dashboard. Counter doesn not allow to decrease below 0. In case of decreasing below 0,
+          warning popup arises with the dynamic error message.
+          Also, increasing any type of counter above 59 causes setting it to 0 and increasing its parent counter by 1.
+          Similarly, decreasing any type of counter below 00 causes setting it to 59 and decreasing its parent counter by 1 whether its parent counter greater than 0.
+        </p>
+      </div>
     </div>
   );
 }

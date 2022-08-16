@@ -1,7 +1,14 @@
-.bitcoin {
+.bitcoin-parent {
     display: flex;
+    flex-direction: column;
     padding: 10px;
 }
+
+.bitcoin-child {
+  display: flex;
+  flex-direction: row;
+}
+
 .currency-card {
     background-color: rgb(212, 212, 212);
     text-align: center;
