@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-key */
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import useInterval from './useInterval';
 import "./Bitcoin.css";
 
+const TIME_INTERVAL = 4000;
 function Bitcoin() {
   const [prices, setPrices] = useState(
     {
@@ -73,7 +73,7 @@ function Bitcoin() {
 
   useInterval(async () => {
     await getData(false);
-  }, 4000);
+  }, TIME_INTERVAL);
 
   return (
     <div className='bitcoin-parent'>
