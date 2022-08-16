@@ -100,7 +100,7 @@ function Counter() {
         setWarningPopup({
           isOpen: true,
           title: "Warning",
-          content: "You can not decrease minute less than 0, while hours is 0",
+          content: "You can not decrease minute less than 0, while hour is 0",
         })
         break;
       case "seconds":
@@ -125,7 +125,7 @@ function Counter() {
         setWarningPopup({
           isOpen: true,
           title: "Warning",
-          content: "You can not decrease second less than 0 while hours and minute is 0",
+          content: "You can not decrease second less than 0 while hour and minute is 0",
         })
         break;
     }

@@ -101,7 +101,7 @@ function Bitcoin() {
         </p>
         <h3>Counter</h3>
         <p>
-          counter counts down from 10 hours. User can increment or decrement any of hour, minute and second by
+          Counter counts down from 10 hours. User can increment or decrement any of hour, minute and second by
           using up or down icons on the dashboard. Counter doesn not allow to decrease below 0. In case of decreasing below 0,
           warning popup arises with the dynamic error message.
           Also, increasing any type of counter above 59 causes setting it to 0 and increasing its parent counter by 1.
